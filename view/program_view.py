@@ -15,6 +15,16 @@ class ProgramView:
                     'title':'태그별',
                     'items':tags
                 },
-                'bootCampId':camp_id,
+                'bootcampId':camp_id,
                 'courses':programs
+            })
+
+        @app.route('/api/bootcamp/<string:camp_name>/<int:program_id>', methods=['GET'])
+        def program_detail(camp_name,program_id):
+            camp_id=program_service.get_boot_camp_id(camp_name)
+            detail=program_service.get_program_detail(program_id)
+
+            return jsonify({
+                'bootcampId':camp_id,
+                'course':detail
             })

@@ -11,3 +11,6 @@ class ProgramService:
     def get_programs(self, boot_camp_name):
         boot_camp_id=self.get_boot_camp_id(boot_camp_name)
         return self.program_dao.get_programs(boot_camp_id)
+
+    def get_program_detail(self, program_id):
+        return self.program_dao.get_program_detail(program_id)

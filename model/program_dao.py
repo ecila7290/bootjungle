@@ -59,4 +59,36 @@ class ProgramDao:
         
         return program_list
 
+    def get_program_detail(self, program_id):
+        detail=self.db.execute(text("""
+            SELECT id, name, eng_name, intro, detail, cost,
+            operating_time, students, program_total_score
+            FROM camp_programs
+            WHERE id=:program_id
+        """),{'program_id':program_id}).fetchone()
+
+        tag=self.db.execute(text("""
+            SELECT id, name
+            FROM tags
+            WHERE id=(
+                SELECT tag_id
+                FROM camp_program_tags
+                WHERE camp_program_id=:program_id 
+                AND (tag_id=6 OR tag_id=7)
+            )
+        """),{'program_id':program_id}).fetchone()
+
+        return {
+            'id':program_id,
+            'courseName':detail['eng_name'],
+            'courseNameKor':detail['name'],
+            'intro':detail['intro'],
+            'curriculum':detail['detail'],
+            'price':detail['cost'],
+            'operationTime':detail['operating_time'],
+            'onlineOffline':tag['name'],
+            'students':detail['students'],
+            'score':detail['program_total_score']
+        }
+
             
