@@ -14,3 +14,7 @@ class ProgramService:
 
     def get_program_detail(self, program_id):
         return self.program_dao.get_program_detail(program_id)
+
+    def get_program_comment(self, program_id):
+        return self.program_dao.get_program_comment(program_id)
+    

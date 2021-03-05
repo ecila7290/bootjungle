@@ -91,4 +91,31 @@ class ProgramDao:
             'score':detail['program_total_score']
         }
 
-            
+    def get_program_comment(self, program_id):
+        comments=self.db.execute(text("""
+            SELECT c.id, c.camp_program_id, c.user_id, c.content, 
+            c.recomment_id, u.name
+            FROM comments c
+            LEFT JOIN users u ON u.id=user_id
+            WHERE camp_program_id=:program_id
+        """),{'program_id':program_id}).fetchall()
+
+        comment_list=[]
+        
+        for c in comments:
+            comment={}
+            comment['id']=c['id']
+            comment['userId']=c['user_id']
+            comment['userName']=c['name']
+            comment['content']=c['content']
+            comment['recomment']=[]
+
+            if c['recomment_id']:
+                for rc in comment_list:
+                    if rc['id']==c['recomment_id']:
+                        rc['recomment'].append(comment)
+            else:
+                comment_list.append(comment)
+        
+        return comment_list
+                

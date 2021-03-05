@@ -23,8 +23,10 @@ class ProgramView:
         def program_detail(camp_name,program_id):
             camp_id=program_service.get_boot_camp_id(camp_name)
             detail=program_service.get_program_detail(program_id)
+            comments=program_service.get_program_comment(program_id)
 
             return jsonify({
                 'bootcampId':camp_id,
-                'course':detail
+                'course':detail,
+                'comments':comments
             })
